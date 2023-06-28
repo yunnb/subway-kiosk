@@ -8,7 +8,7 @@ import javax.swing.*;
 
 public class MainFrame extends JFrame{
 
-    // Main Screen!
+    // Main Screen
     static JButton startBtn = new JButton(new ImageIcon("images/startButton.png"));
     static JPanel mainScreen = new JPanel() {
         ImageIcon icon = new ImageIcon("images/main3.jpg");
