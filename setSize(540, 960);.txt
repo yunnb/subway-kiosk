@@ -1,0 +1,27 @@
+	setSize(540, 960);
+        setTitle("Subway Kiosk");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        Container c = getContentPane();
+        c.setLayout(new BorderLayout());
+
+        // BorderLayout.NORTH
+        JPanel pBackGround = new JPanel(new GridLayout());
+        pBackGround.setBackground(Color.WHITE);
+        c.add(pBackGround, BorderLayout.NORTH);
+
+        // BorderLayout.SOUTH
+        JPanel pSouth = new JPanel(new GridLayout());
+        pSouth.setBackground(Color.WHITE);
+        c.add(pSouth, BorderLayout.SOUTH);
+
+        // image
+        ImageIcon mII = new ImageIcon("images/main2.jpg");
+        Image mI = mII.getImage();
+        Image resizeM = mI.getScaledInstance(540, 810, Image.SCALE_SMOOTH);
+        ImageIcon changeM = new ImageIcon(resizeM);
+
+        JLabel main = new JLabel(changeM);
+        pBackGround.add(main);
+
+        setVisible(true);
