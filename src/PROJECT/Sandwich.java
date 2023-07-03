@@ -1,6 +1,50 @@
 package PROJECT;
 import java.util.ArrayList;
-import java.util.List;
+
+enum SandwichType {
+    Ham(5200,262,"햄", "images/Sandwiches/1.png"),
+    SubwayClub(6500,299,"써브웨이 클럽", "images/Sandwiches/2.png"),
+    SpicyItalian(6300,464,"스파이시 이탈리안", "images/Sandwiches/3.png"),
+    SteakCheese(7400,355,"스테이크&치즈", "images/Sandwiches/4.png"),
+    ChickenBaconAvocado(7400,355,"치킨 베이컨 아보카도", "images/Sandwiches/5.png"),
+    KBBQ(6700,372,"K-바비큐", "images/Sandwiches/6.png"),
+    PulledPorkBarbecue(6600,327,"풀드 포크 바비큐", "images/Sandwiches/7.png"),
+    RotisserieBarbecueChicken(6700,327,"로티세리 바비큐 치킨", "images/Sandwiches/8.png"),
+    RoastedChicken(6700,300,"로스트 치킨", "images/Sandwiches/9.png"),
+    Shrimp(6500,229,"쉬림프", "images/Sandwiches/10.png"),
+    ChickenTeriyaki(6400,314,"치킨 데리야끼", "images/Sandwiches/11.png"),
+    ItalianBMT(6100,388,"이탈리안 비엠티", "images/Sandwiches/12.png"),
+    BLT(6000,300,"비엘티", "images/Sandwiches/13.png"),
+    ChickenSlice(5900,265,"치킨 슬라이스", "images/Sandwiches/14.png"),
+    Tuna(5200,316,"참치", "images/Sandwiches/15.png"),
+    EggMayo(4900,416,"에그마요", "images/Sandwiches/16.png"),
+    Veggie(4400,209,"베지", "images/Sandwiches/17.png");
+
+
+    private int kcal;
+    private int price;
+    private String name;
+    private String img;
+
+    SandwichType(int price, int kcal, String name, String img) {
+        this.kcal = kcal;
+        this.price = price;
+        this.name = name;
+        this.img = img;
+    }
+
+    public int getKcal() {
+        return  kcal;
+    }
+    public int getPrice() {
+        return price;
+    }
+    public String getName(){
+        return name;
+    }
+    public String getImg() { return img; }
+
+}
 
 enum BreadType {
     Oat(235, "허니오트"),
@@ -25,7 +69,6 @@ enum BreadType {
     public String getName() {
         return name;
     }
-
 }
 enum CheeseType {
     American(35, "아메리칸 치즈"),
@@ -44,12 +87,40 @@ enum CheeseType {
     public int getKcal() {
         return kcal;
     }
-
     public String getName() {
         return name;
     }
 
+}
 
+enum ToppingType {
+    Meat(3000,100, "미트 추가"),
+    EggMayo(2000,205, "에그마요"),
+    Omelet(1800,120, "오믈렛"),
+    Avocado(1500,63, "아보카도"),
+    Bacon(1500,89, "베이컨"),
+    Pepperoni(1400,81, "페퍼로니"),
+    Cheese(1400,50, "치즈 추가");
+
+    private int kcal;
+    private int price;
+    private String name;
+
+    ToppingType(int price,int kcal, String name) {
+        this.kcal = kcal;
+        this.price = price;
+        this.name = name;
+    }
+
+    public int getKcal() {
+        return  kcal;
+    }
+    public int getPrice() {
+        return price;
+    }
+    public String getName(){
+        return name;
+    }
 }
 
 enum VegetableType {
@@ -73,11 +144,9 @@ enum VegetableType {
     public int getKcal() {
         return kcal;
     }
-
     public String getName() {
         return name;
     }
-
 }
 
 enum SauceType {
@@ -110,252 +179,145 @@ enum SauceType {
 
 }
 
-enum ToppingType {
-    Meat(3000,100, "미트 추가"),
-    EggMayo(2000,205, "에그마요"),
-    Omelet(1800,120, "오믈렛"),
-    Avocado(1500,63, "아보카도"),
-    Bacon(1500,89, "베이컨"),
-    Pepperoni(1400,81, "페퍼로니"),
-    Cheese(1400,50, "치즈 추가");
+enum CookieType {
+    DoubleChocolateChip(212, "더블 초코칩"),
+    ChocolateChip(228, "초코칩"),
+    OatmealRaisin(200, "오트밀 레이즌"),
+    RaspberryCheeseCake(204, "라즈베리 치즈케익"),
+    WhiteChocoMacadamia(245, "화이트 초코 마카다미아");
 
     private int kcal;
-    private int price;
     private String name;
 
-    ToppingType(int price,int kcal, String name) {
+    CookieType(int kcal, String name) {
         this.kcal = kcal;
-        this.price = price;
         this.name = name;
     }
 
     public int getKcal() {
-        return  kcal;
+        return kcal;
     }
 
-    public int getPrice() {
-        return price;
-    }
-
-    public String getName(){
+    public String getName() {
         return name;
     }
 
 }
 
-enum SandwichType {
-    Ham(5200,262,"햄"),
-    SubwayClub(6500,299,"써브웨이 클럽"),
-    SpicyItalian(6300,464,"스파이시 이탈리안"),
-    SteakCheese(7400,355,"스테이크&치즈"),
-    ChickenBaconAvocado(7400,355,"치킨 베이컨 아보카도"),
-    KBBQ(6700,372,"K-바비큐"),
-    PulledPorkBarbecue(6600,327,"풀드 포크 바비큐"),
-    RotisserieBarbecueChicken(6700,327,"로티세리 바비큐 치킨"),
-    RoastedChicken(6700,300,"로스트 치킨"),
-    Shrimp(6500,229,"쉬림프"),
-    ChickenTeriyaki(6400,314,"치킨 데리야끼"),
-    ItalianBMT(6100,388,"이탈리안 비엠티"),
-    BLT(6000,300,"비엘티"),
-    ChickenSlice(5900,265,"치킨 슬라이스"),
-    Tuna(5200,316,"참치"),
-    EggMayo(4900,416,"에그마요"),
-    Veggie(4400,209,"베지");
-
+enum DrinkType {
+    CocaCola(94, "코카 콜라"),
+    CocaColaZero(0, "코카콜라 제로"),
+    Sprite(90, "스프라이트"),
+    SpriteZero(0, "스프라이트 제로"),
+    FantaPineapple(42, "환타 파인애플"),
+    FantaGrape(80, "환타 포도");
 
     private int kcal;
-    private int price;
     private String name;
 
-    SandwichType(int price, int kcal, String name) {
+    DrinkType(int kcal, String name) {
         this.kcal = kcal;
-        this.price = price;
         this.name = name;
     }
 
     public int getKcal() {
-        return  kcal;
-    }
-    public int getPrice() {
-        return price;
+        return kcal;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
-
 }
-
-class Vegetable {
-    private VegetableType type;
-
-    public Vegetable(VegetableType type) {
-        this.type = type;
-    }
-
-    public VegetableType getType() {
-        return type;
-    }
-}
-
-class Sauce {
-    private SauceType type;
-
-    public Sauce(SauceType type)
-    {
-        this.type = type;
-    }
-
-    public SauceType getType()
-    {
-        return type;
-    }
-}
-
-class Topping {
-    private ToppingType type;
-    private int quantity;
-
-    public Topping(ToppingType type,int quantity) {
-        this.type = type;
-        this.quantity = quantity;
-    }
-
-    public ToppingType getType() {
-        return type;
-    }
-}
-
-
 
 class Sandwich {
     private SandwichType sandwichType;
-    private String ImgPath;
-    private boolean basic = true; //true 가 15cm false가 30cm
-    private boolean set = false; //false가 기본 true가 세트
-    private int price;
-    private int kcal;
     private BreadType breadType;
     private CheeseType cheeseType;
-    private List<Vegetable> vegetables;
-    private List<Sauce> sauces;
-    private List<Topping> toppings;
+    public ArrayList<ToppingType> toppings;
+    private ArrayList<VegetableType> vegetables;
+    private ArrayList<SauceType> sauces;
+    private CookieType cookieType;
+    private DrinkType drinkType;
 
-    public Sandwich(SandwichType sandwichType, String ImgPath) {
+    private int price;
+    private int kcal;
+
+    private boolean sizeUp;
+    private boolean set;
+
+    public Sandwich(SandwichType sandwichType) {
         this.sandwichType = sandwichType;
-
-        this.ImgPath = ImgPath;
-
-        this.price = sandwichType.getPrice();
-        this.kcal = sandwichType.getKcal();
 
         this.toppings = new ArrayList<>();
         this.vegetables = new ArrayList<>();
         this.sauces = new ArrayList<>();
+
+        this.price = 0;
+        this.kcal = 0;
+
+        this.sizeUp = false;
+        this.set = false;
     }
 
-    public void choiceSandwich(SandwichType sandwichType) {
-        this.sandwichType = sandwichType;
-    }
-    public void choiceBread(BreadType breadType) {
+    public void setBread(BreadType breadType) {
         this.breadType = breadType;
     }
-    public void choiceCheese(CheeseType cheeseType) {
+
+    public void setCheese(CheeseType cheeseType) {
         this.cheeseType = cheeseType;
     }
 
-    public void addTopping(ToppingType toppingType, int quantity) {
-        toppings.add(new Topping(toppingType,quantity));
+    public void addTopping(String topping) {
+        toppings.add(ToppingType.valueOf(topping));
     }
 
-    public void addVegetable(VegetableType vegetableType) {
-        vegetables.add(new Vegetable(vegetableType));
+    public void addVegetable(String vegetable) {
+        vegetables.add(VegetableType.valueOf(vegetable));
     }
 
-    public void addSauce(SauceType sauceType) {
-        sauces.add(new Sauce(sauceType));
+    public void addSauce(String sauce) {
+        sauces.add(SauceType.valueOf(sauce));
     }
 
+    public void removeTopping(String topping) {
+        toppings.remove(ToppingType.valueOf(topping));
+    }
 
-    public int TotalPrice() {
-        int total = price;
+    public void removeVegetable(String vegetable) {
+        vegetables.remove(VegetableType.valueOf(vegetable));
+    }
 
-        if(set) total += 1600; //세트면 1600원 추가
+    public void removeSauce(String sauce) {
+        sauces.remove(SauceType.valueOf(sauce));
+    }
 
-        //토핑 가격 계산
-        for(Topping topping : toppings) {
-            int toppingPrice = topping.getType().getPrice();
-            if(!basic) toppingPrice *= 2; //30cm 이면 토핑 가격 2배
-            total += toppingPrice;
+    public void setCookie(CookieType cookieType) { this.cookieType = cookieType; }
+
+    public void setDrink(DrinkType drinkType) { this.drinkType = drinkType; }
+
+    public int getPrice() {
+        price += sandwichType.getPrice();
+        if(sizeUp) price += 5500;
+        if(set) price += 2500;
+
+        for(ToppingType topping : toppings) {
+            price += topping.getPrice();
+            if(sizeUp) price += topping.getPrice();
         }
 
-        return total;
+        return price;
     }
 
-    public int TotalKcal() {
-        int total = kcal;
+    public int getKcal() {
+        kcal += sandwichType.getKcal();
+        if(sizeUp) kcal += sandwichType.getKcal();
+        if(set) kcal += cookieType.getKcal() + drinkType.getKcal();
 
-        //토핑 칼로리 게산
-        for(Topping topping : toppings) {
-            int toppingKcal = topping.getType().getKcal();
-            if(!basic) toppingKcal *= 2; //30cm 면 칼로리 2배
-            total += toppingKcal;
+        for(ToppingType topping : toppings) {
+            kcal += topping.getKcal();
+            if(sizeUp) kcal += topping.getKcal();
         }
 
-        //소스 칼로리 계산
-        for(Sauce sauce : sauces) {
-            int sauceKcal = sauce.getType().getKcal();
-            if(!basic) sauceKcal *= 2; //30cm 면 칼로리 2배
-            total += sauceKcal;
-        }
-
-        //야채 칼로리 계산
-        for(Vegetable vegetable : vegetables) {
-            int vegetableKcal = vegetable.getType().getKcal();
-            if(!basic) vegetableKcal *= 2; //30cm 면 칼로리 2배
-            total += vegetableKcal;
-        }
-
-        total += breadType.getKcal(); //빵 칼로리 계산
-        total += cheeseType.getKcal(); //치즈 칼로리 계산
-
-        return total;
+        return kcal;
     }
-
-    public SandwichType getSandwichType() {
-        return sandwichType;
-    }
-
-    public String getImgPath() {
-        return ImgPath;
-    }
-
-    public void test() {
-        System.out.println("이 샌드위치는 " + sandwichType.getName() + "입니다");
-    }
-
-
-
 }
-
-/*
-public class SandwichClass {
-
-
-    public static void main(String[] args)
-    {
-        Sandwich sandwich = new Sandwich(SandwichType.Ham);
-        sandwich.addSauce(SauceType.Horseradish);
-        sandwich.addTopping(ToppingType.Bacon,2);
-        sandwich.addTopping(ToppingType.Avocado,1);
-        sandwich.addVegetable(VegetableType.Lettuce);
-        sandwich.choiceBread(BreadType.Flat);
-        sandwich.choiceCheese(CheeseType.Mozzarella);
-
-        System.out.println("Price : " + sandwich.TotalPrice());
-        System.out.println("Kcal : " + sandwich.TotalKcal());
-
-    }
-
-}
-*/
