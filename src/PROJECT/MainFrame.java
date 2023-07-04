@@ -1,6 +1,8 @@
 package PROJECT;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -8,22 +10,28 @@ import java.util.Arrays;
 
 import javax.swing.*;
 
-public class MainFrame extends JFrame {
+public class MainFrame extends JFrame implements ActionListener {
 
     // Main Screen
     private JButton startBtn = new JButton(new ImageIcon("images/startButton.png"));
     private JPanel mainScreen = new JPanel() {
         ImageIcon icon = new ImageIcon("images/main3.jpg");
-
         public void paintComponent(Graphics g) {
             g.drawImage(icon.getImage(), 0, 0, null);
         }
     };
 
     // Order Screen
+    private String[] menuText = {"샌드위치", "샐러드", "랩/기타", "사이드/음료"};
+    private JButton[] menuBtn = new JButton[4];
     private JPanel menuScreen = new JPanel();
-    private JPanel sandwichMenuScreen = new JPanel(new BorderLayout());
 
+    private JPanel sandwichMenuScreen = new JPanel(new BorderLayout());
+    private JPanel saladMenuScreen = new JPanel(new BorderLayout());
+    private JPanel wrapEtcMenuScreen = new JPanel(new BorderLayout());
+    private JPanel sideDrinkMenuScreen = new JPanel(new BorderLayout());
+
+    // Cart Screen
     private JPanel cartScreen = new JPanel();
 
     private Font font1 = new Font("SUITE", Font.BOLD, 18);
@@ -48,10 +56,9 @@ public class MainFrame extends JFrame {
     }
 
     public void setPanel() {
-        startBtn.setBounds(0, 805, 540, 120);
+        startBtn.setBounds(0, 785, 540, 140);
         mainScreen.setBounds(0, 0, 540, 960);
         menuScreen.setBounds(0, 20, 540, 100);
-        sandwichMenuScreen.setBounds(0, 130, 525, 630);
         cartScreen.setBounds(0, 760, 540, 200);
 
         mainScreen.setLayout(null);
@@ -59,15 +66,18 @@ public class MainFrame extends JFrame {
         cartScreen.setLayout(null);
 
         menuScreen.setVisible(false);
-        sandwichMenuScreen.setVisible(false);
         cartScreen.setVisible(false);
 
-        //menuScreen2.setBackground(Color.black);
-        //cartScreen.setBackground(Color.BLUE);
+        sandwichMenuScreen.setVisible(false);
+        saladMenuScreen.setVisible(false);
+        wrapEtcMenuScreen.setVisible(false);
+        sideDrinkMenuScreen.setVisible(false);
+
+        //Category.setBackground(Color.black);
+        cartScreen.setBackground(Color.WHITE);
 
         add(mainScreen);
         add(menuScreen);
-        add(sandwichMenuScreen);
         add(cartScreen);
         mainScreen.add(startBtn);
     }
@@ -79,13 +89,12 @@ public class MainFrame extends JFrame {
                 mainScreen.setVisible(false);
                 menuScreen.setVisible(true);
                 cartScreen.setVisible(true);
+                setCartScreen();
             }
         });
     }
 
     private void setMenuBtn() {
-        String[] menuText = {"샌드위치", "샐러드", "랩/기타", "사이드/음료"};
-        JButton[] menuBtn = new JButton[4];
         for (int i = 0; i < 4; i++) {
             menuBtn[i] = new JButton(menuText[i]);
             menuBtn[i].setBounds(2 + 130 * i, 0, 130, 100);
@@ -95,21 +104,50 @@ public class MainFrame extends JFrame {
             //menuBtn[i].setBorderPainted(false);
             menuBtn[i].setContentAreaFilled(false);
             menuBtn[i].setFocusPainted(false);
+            menuBtn[i].addActionListener(this);
             menuScreen.add(menuBtn[i]);
         }
+    }
 
-        menuBtn[0].addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                setSandwichMenuBtn();
-                sandwichMenuScreen.setVisible(true);
-            }
-        });
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == menuBtn[0]) {
+            setSandwichMenuBtn();
+            sandwichMenuScreen.setVisible(true);
+            saladMenuScreen.setVisible(false);
+            wrapEtcMenuScreen.setVisible(false);
+            sideDrinkMenuScreen.setVisible(false);
+        }
+        else if (e.getSource() == menuBtn[1]) {
+            setSaladMenuBtn();
+            sandwichMenuScreen.setVisible(false);
+            saladMenuScreen.setVisible(true);
+            wrapEtcMenuScreen.setVisible(false);
+            sideDrinkMenuScreen.setVisible(false);
+        }
+        else if (e.getSource() == menuBtn[2]) {
+            setWrapEtcMenuBtn();
+            sandwichMenuScreen.setVisible(false);
+            saladMenuScreen.setVisible(false);
+            wrapEtcMenuScreen.setVisible(true);
+            sideDrinkMenuScreen.setVisible(false);
+        }
+        else if (e.getSource() == menuBtn[3]) {
+            setSideDrinkMenuBtn();
+            sandwichMenuScreen.setVisible(false);
+            saladMenuScreen.setVisible(false);
+            wrapEtcMenuScreen.setVisible(false);
+            sideDrinkMenuScreen.setVisible(true);
+        }
     }
 
     private void setSandwichMenuBtn() {
-        JPanel panel = new JPanel(new GridLayout(0, 3));
-        panel.setBounds(0, 130, 525, 630);
+        sandwichMenuScreen.setBounds(0, 130, 525, 630);
+        add(sandwichMenuScreen);
+        sandwichMenuScreen.setVisible(true);
+
+        JPanel sandwichMenuPanel = new JPanel(new GridLayout(0, 3));
+        sandwichMenuPanel.setBounds(0, 130, 525, 630);
 
         ArrayList<SandwichType> sandwiches = new ArrayList<>(Arrays.asList(
                 SandwichType.Ham, SandwichType.SubwayClub, SandwichType.SpicyItalian,
@@ -136,16 +174,65 @@ public class MainFrame extends JFrame {
             sandwichMenuBtn.setVerticalTextPosition(JButton.BOTTOM);
             sandwichMenuBtn.setFont(font2);
 
-            panel.add(sandwichMenuBtn);
-            panel.setVisible(true);
-        }
+            sandwichMenuPanel.add(sandwichMenuBtn);
+            sandwichMenuPanel.setVisible(true);
 
-        JScrollPane sandwichScrollPane = new JScrollPane(panel);
+            sandwichMenuBtn.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    Sandwich sandwich = new Sandwich(j);
+                    sandwich.chooseSandwich();
+                }
+            });
+        }
+        JScrollPane sandwichScrollPane = new JScrollPane(sandwichMenuPanel);
         sandwichScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         sandwichMenuScreen.add(sandwichScrollPane, BorderLayout.CENTER);
     }
 
+    private void setSaladMenuBtn() {
+        saladMenuScreen.setBounds(0, 130, 525, 630);
+        add(saladMenuScreen);
+        saladMenuScreen.setBackground(Color.PINK);
+
+        JPanel saladMenuPanel = new JPanel(new GridLayout(0, 3));
+        saladMenuPanel.setBounds(0, 130, 525, 630);
+    }
+
+    private void setWrapEtcMenuBtn() {
+        wrapEtcMenuScreen.setBounds(0, 130, 525, 630);
+        add(wrapEtcMenuScreen);
+        wrapEtcMenuScreen.setBackground(Color.BLACK);
+
+        JPanel wrapEtcMenuPanel = new JPanel(new GridLayout(0, 3));
+        wrapEtcMenuPanel.setBounds(0, 130, 525, 630);
+    }
+
+    private void setSideDrinkMenuBtn() {
+        sideDrinkMenuScreen.setBounds(0, 130, 525, 630);
+        add(sideDrinkMenuScreen);
+        sideDrinkMenuScreen.setBackground(Color.ORANGE);
+
+        JPanel sideDrinkMenuPanel = new JPanel(new GridLayout(0, 3));
+        sideDrinkMenuPanel.setBounds(0, 130, 525, 630);
+    }
+    private void setCartScreen() {
+        JPanel cartList = new JPanel();
+        cartList.setBounds(10, 10, 380, 140);
+        cartList.setBackground(Color.ORANGE);
+
+        ImageIcon icon = new ImageIcon("images/payButton.png");
+        Image img = icon.getImage();
+        Image resizeImg = img.getScaledInstance(115, 140, Image.SCALE_SMOOTH);
+        JButton payBtn = new JButton(new ImageIcon(resizeImg));
+        payBtn.setBounds(400, 10, 115, 140);
+
+        cartScreen.add(cartList);
+        cartScreen.add(payBtn);
+        payBtn.setVisible(true);
+        cartList.setVisible(true);
+    }
     public static void main(String[] args) {
         new MainFrame();
     }
