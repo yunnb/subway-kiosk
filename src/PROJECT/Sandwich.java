@@ -2,8 +2,6 @@ package PROJECT;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -896,30 +894,87 @@ class Sandwich {
     }
 
     private void checkSandwich() {
-        checkPanel.setLayout(new FlowLayout());
+        System.out.println("check");
+        checkPanel.setLayout(null);
+        checkPanel.setBounds(0, 0, 400, 550);
+        frame.add(checkPanel);
+
+        JLabel label = new JLabel("주문 내역을 확인해주세요.");
+        label.setBounds(100, 40, 400, 60);
+        label.setBackground(color);
+        label.setFont(font1);
+        checkPanel.add(label);
+
         JLabel bread = new JLabel();
-        if(!sizeUp) bread.setText("15cm, " + breadType.getName());
-        else bread.setText("30cm, " + breadType.getName());
-
-        JLabel cheese = new JLabel(cheeseType.getName());
-
+        JLabel cheese = new JLabel("치즈 |   " + cheeseType.getName());
         JLabel topping = new JLabel();
-        for (ToppingType t : toppings) topping.setText(t.getName());
-
         JLabel vegetable = new JLabel();
-        for (VegetableType v : vegetables) vegetable.setText(v.getName() + " ");
-
         JLabel sauce = new JLabel();
-        for (SauceType s : sauces) sauce.setText(s.getName() + " ");
+        JLabel setL = new JLabel();
 
-        JLabel set = new JLabel();
-        set.setText(cookieType.getName() + " " + drinkType.getName());
+        if(!sizeUp) bread.setText("  빵   |   15cm,  " + breadType.getName());
+        else bread.setText("  빵   |   30cm,  " + breadType.getName());
+
+        String str = "토핑 |   ";
+        for (ToppingType t : toppings) str += t.getName() + ",  ";
+        topping.setText(str);
+
+        str = "야채 |   ";
+        for (VegetableType v : vegetables) str += v.getName() + ",  ";
+        vegetable.setText(str);
+
+        str = "소스 |   ";
+        for (SauceType s : sauces) str += s.getName() + ",  ";
+        sauce.setText(str);
+
+        if(set) setL.setText("세트 |   " + cookieType.getName() + ",  " + drinkType.getName());
+        else setL.setText("세트 |   ");
+
+        bread.setBounds(40, 110, 400, 40);
+        cheese.setBounds(40, 145, 400, 40);
+        topping.setBounds(40, 180, 400, 40);
+        vegetable.setBounds(40, 215, 400, 40);
+        sauce.setBounds(40, 250, 400, 40);
+        setL.setBounds(40, 285, 400, 40);
+
+        bread.setFont(font2);
+        cheese.setFont(font2);
+        topping.setFont(font2);
+        vegetable.setFont(font2);
+        sauce.setFont(font2);
+        setL.setFont(font2);
+
+        JLabel bar = new JLabel("-------------------------------------");
+        JLabel priceL = new JLabel("금액 |   " + getPrice() + "원");
+        JLabel kcalL = new JLabel("열량 |   " + getKcal() + "kcal");
+
+        bar.setBounds(40, 325, 400, 40);
+        priceL.setBounds(40, 365, 200, 40);
+        kcalL.setBounds(220, 365, 200, 40);
+
+        bar.setFont(font2);
+        priceL.setFont(font2);
+        kcalL.setFont(font2);
+
+        JButton cart = new JButton("담기");
+        JButton cancel = new JButton("취소");
+        cart.setBounds(85, 450, 90, 40);
+        cancel.setBounds(200, 450, 90, 40);
+        cart.setFont(font2);
+        cancel.setFont(font2);
 
         checkPanel.add(bread);
         checkPanel.add(cheese);
         checkPanel.add(topping);
         checkPanel.add(vegetable);
         checkPanel.add(sauce);
-        checkPanel.add(set);
+        checkPanel.add(setL);
+        checkPanel.add(bar);
+        checkPanel.add(priceL);
+        checkPanel.add(kcalL);
+        checkPanel.add(cart);
+        checkPanel.add(cancel);
+
+        checkPanel.setVisible(true);
     }
 }
