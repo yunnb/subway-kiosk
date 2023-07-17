@@ -10,7 +10,7 @@ enum SandwichType {
     Ham(5200,262,"햄", "images/Sandwiches/1.png"),
     SubwayClub(6500,299,"써브웨이 클럽", "images/Sandwiches/2.png"),
     SpicyItalian(6300,464,"스파이시 이탈리안", "images/Sandwiches/3.png"),
-    SteakCheese(7400,355,"스테이크&치즈", "images/Sandwiches/4.png"),
+    SteakCheese(7400,355,"스테이크 & 치즈", "images/Sandwiches/4.png"),
     ChickenBaconAvocado(7400,355,"치킨 베이컨 아보카도", "images/Sandwiches/5.png"),
     KBBQ(6700,372,"K-바비큐", "images/Sandwiches/6.png"),
     PulledPorkBarbecue(6600,327,"풀드 포크 바비큐", "images/Sandwiches/7.png"),
@@ -225,6 +225,7 @@ enum CookieType {
         this.img = img;
     }
 
+    public int getPrice() { return 1300; }
     public int getKcal() {
         return kcal;
     }
@@ -254,6 +255,7 @@ enum DrinkType {
         this.img = img;
     }
 
+    public int getPrice() { return 2000; }
     public int getKcal() {
         return kcal;
     }
@@ -264,7 +266,7 @@ enum DrinkType {
     public String getImg() { return img; }
 }
 
-class Sandwich {
+class Sandwich{
     private JFrame frame = new JFrame();
     private JPanel sizePanel = new JPanel();
     private JPanel breadPanel = new JPanel();
@@ -284,7 +286,7 @@ class Sandwich {
     private SandwichType sandwichType;
     private BreadType breadType;
     private CheeseType cheeseType;
-    public ArrayList<ToppingType> toppings;
+    private ArrayList<ToppingType> toppings;
     private ArrayList<VegetableType> vegetables;
     private ArrayList<SauceType> sauces;
     private CookieType cookieType;
@@ -300,6 +302,7 @@ class Sandwich {
     private boolean sizeUp;
     private boolean set;
 
+
     public Sandwich(SandwichType sandwichType) {
         this.sandwichType = sandwichType;
 
@@ -312,6 +315,7 @@ class Sandwich {
 
         this.sizeUp = false;
         this.set = false;
+
     }
 
     public void setBread(BreadType breadType) {
@@ -350,17 +354,18 @@ class Sandwich {
 
     public void setDrink(DrinkType drinkType) { this.drinkType = drinkType; }
 
-    public int getPrice() {
+    public void setPrice() {
         price += sandwichType.getPrice();
-        if(sizeUp) price += 5500;
-        if(set) price += 2500;
+        if(sizeUp) price += sandwichType.getPrice() - 600;
+        if(set) price += 2600;
 
         for(ToppingType topping : toppings) {
             price += topping.getPrice();
             if(sizeUp) price += topping.getPrice();
         }
-        return price;
     }
+
+    public int getPrice() { return price; }
 
     public int getKcal() {
         kcal += sandwichType.getKcal();
@@ -374,6 +379,9 @@ class Sandwich {
 
         return kcal;
     }
+
+    public SandwichType getSandwichType() { return sandwichType; }
+    public Sandwich getSandwich() { return this; }
 
     private void setPopUpFrame() {
         frame.setTitle(sandwichType.getName());
@@ -777,30 +785,29 @@ class Sandwich {
         setBtn[0] = new JButton(new ImageIcon("images/noSet.png"));
         setBtn[1] = new JButton(new ImageIcon("images/set.png"));
         for (int i = 0; i < 2; i++) {
-            setBtn[i].setBounds(180*i + 30 , 180,150,150);
+            setBtn[i].setBounds(180*i + 30, 180, 150, 150);
             setBtn[i].setBackground(color);
             setBtn[i].setVisible(true);
             setBtn[i].setContentAreaFilled(false);
             setBtn[i].setFocusPainted(false);
             setPanel.add(setBtn[i]);
-            setBtn[0].addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    set = false;
-                    setPanel.setVisible(false);
-                    checkSandwich();
-                }
-            });
-
-            setBtn[1].addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    set = true;
-                    setPanel.setVisible(false);
-                    chooseCookie();
-                }
-            });
         }
+        setBtn[0].addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                set = false;
+                setPanel.setVisible(false);
+                checkSandwich();
+            }
+        });
+        setBtn[1].addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                set = true;
+                setPanel.setVisible(false);
+                chooseCookie();
+            }
+        });
     }
 
     private void chooseCookie() {
@@ -928,7 +935,7 @@ class Sandwich {
         sauce.setText(str);
 
         if(set) setL.setText("세트 |   " + cookieType.getName() + ",  " + drinkType.getName());
-        else setL.setText("세트 |   ");
+        else setL.setText("세트 |   선택 안함");
 
         bread.setBounds(40, 110, 400, 40);
         cheese.setBounds(40, 145, 400, 40);
@@ -943,6 +950,8 @@ class Sandwich {
         vegetable.setFont(font2);
         sauce.setFont(font2);
         setL.setFont(font2);
+
+        setPrice();
 
         JLabel bar = new JLabel("-------------------------------------");
         JLabel priceL = new JLabel("금액 |   " + getPrice() + "원");
@@ -974,7 +983,25 @@ class Sandwich {
         checkPanel.add(kcalL);
         checkPanel.add(cart);
         checkPanel.add(cancel);
-
         checkPanel.setVisible(true);
+
+        cart.revalidate();
+        cancel.revalidate();
+        cart.repaint();
+        cancel.repaint();
+
+        cart.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                MainFrame.plusCart(getSandwich());
+                frame.setVisible(false);
+            }
+        });
+        cancel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                frame.setVisible(false);
+            }
+        });
     }
 }
